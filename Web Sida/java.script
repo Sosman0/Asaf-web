@@ -1,0 +1,123 @@
+// JavaScript for Enhanced Website Interactivity and Quality
+
+// DOM Content Loaded Event Listener
+document.addEventListener('DOMContentLoaded', () => {
+    // Smooth Scroll for Anchor Links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Navbar Scrolling Effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    });
+
+    // Video Play/Pause on Hover
+    const video = document.querySelector('video');
+    video.addEventListener('mouseenter', () => {
+        video.play();
+    });
+    video.addEventListener('mouseleave', () => {
+        video.pause();
+    });
+
+    // Country Cards Animation on Scroll
+    const countryCards = document.querySelectorAll('.country-card');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-country-card');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+    countryCards.forEach(card => {
+        observer.observe(card);
+    });
+
+    // Contact Form Validation
+    const contactForm = document.querySelector('.contact-form');
+    contactForm.addEventListener('submit', (e) => {
+        const email = contactForm.querySelector('#email');
+        const message = contactForm.querySelector('#message');
+        if (!validateEmail(email.value)) {
+            e.preventDefault();
+            alert('Please enter a valid email address.');
+        }
+        if (message.value.trim() === '') {
+            e.preventDefault();
+            alert('Please enter a message.');
+        }
+    });
+
+    // Email Validation Function
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    // Lazy Loading Images for Performance
+    const lazyImages = document.querySelectorAll('img');
+    lazyImages.forEach(img => {
+        img.loading = 'lazy';
+    });
+
+    // Contact Details Toggle on Mobile
+    if (window.innerWidth <= 768) {
+        const contactDetails = document.querySelector('.contact-details');
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = 'Show Contact Details';
+        toggleButton.classList.add('toggle-contact-button');
+        contactDetails.before(toggleButton);
+        contactDetails.style.display = 'none';
+        toggleButton.addEventListener('click', () => {
+            if (contactDetails.style.display === 'none') {
+                contactDetails.style.display = 'block';
+                toggleButton.textContent = 'Hide Contact Details';
+            } else {
+                contactDetails.style.display = 'none';
+                toggleButton.textContent = 'Show Contact Details';
+            }
+        });
+    }
+
+    // Footer Social Media Animation
+    const socialLinks = document.querySelectorAll('.social-media a');
+    socialLinks.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            link.style.transform = 'scale(1.2)';
+        });
+        link.addEventListener('mouseleave', () => {
+            link.style.transform = 'scale(1)';
+        });
+    });
+});
+
+// Sticky Navbar Class Toggle
+document.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 150) {
+        navbar.classList.add('sticky');
+    } else {
+        navbar.classList.remove('sticky');
+    }
+});
+
+// Mobile Menu Toggle
+const mobileMenuToggle = document.querySelector('.navbar');
+const navbarLinks = document.querySelector('.navbar-links');
+mobileMenuToggle.addEventListener('click', () => {
+    navbarLinks.classList.toggle('active');
+});
